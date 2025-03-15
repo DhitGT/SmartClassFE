@@ -9,6 +9,7 @@ export default {
       "./components/**/*.vue",
       "./components/**/**.vue",
       "./layouts/**/*.vue",
+      "./*",
     ],
     theme: {
       extend: {},

@@ -1,5 +1,5 @@
 <template>
-    <footer class="bg-white py-8">
+    <footer class="bg-white px-4 md:px-0 py-8 border-t-1 border-gray-300">
       <div class="container mx-auto flex flex-col md:flex-row justify-between items-start md:items-center">
         <div class="mb-4 md:w-[50vw]  md:mb-0">
           <h1 class="text-xl font-bold text-blue-600">SmartClass</h1>
@@ -36,7 +36,7 @@
           </div>
         </div>
       </div>
-      <div class="text-center pt-18">
+      <div class="text-center pt-4 md:pt-18">
         <p class="text-gray-600">© 2025 SmartClass. All rights reserved.</p>
       </div>
     </footer>

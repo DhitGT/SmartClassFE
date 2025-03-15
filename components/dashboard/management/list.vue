@@ -17,25 +17,25 @@
       <DashboardManagementCard
         title="Cash"
         description="Financial records"
-        cardhref=""
+        cardhref="cash"
         icon="BanknotesIcon"
       />
       <DashboardManagementCard
         title="Schedule"
         description="Class timetable"
-        cardhref=""
+        cardhref="schedule"
         icon="CalendarIcon"
       />
       <DashboardManagementCard
         title="Subjects"
         description="Course content"
-        cardhref=""
+        cardhref="subjects"
         icon="BookOpenIcon"
       />
       <DashboardManagementCard
         title="Tasks"
         description="Assignments"
-        cardhref=""
+        cardhref="tasks"
         icon="ClipboardDocumentListIcon"
       />
     </div>

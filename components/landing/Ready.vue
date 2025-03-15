@@ -1,6 +1,7 @@
 <template>
-    <section class="bg-blue-600  text-white text-center py-12">
-      <h2 class="text-3xl font-bold mb-4">
+  <div class="">
+    <section class="bg-blue-600 px-4 md:px-0 text-white text-center py-12">
+      <h2 class="text-xl md:text-3xl font-bold mb-4">
         Ready to Transform Your Teaching?
       </h2>
       <p class="mb-6">
@@ -15,6 +16,7 @@
         </nuxt-link>
       </div>
     </section>
+  </div>
   </template>
   
   <script setup>
