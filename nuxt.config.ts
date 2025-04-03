@@ -1,59 +1,55 @@
 import tailwindcss from "@tailwindcss/vite";
 
+
 export default defineNuxtConfig({
   css: ["~/assets/css/tailwind.css"],
-  modules: ["@pinia/nuxt",'@vite-pwa/nuxt'],
+  modules: ["@pinia/nuxt", "@vite-pwa/nuxt"],
 
-
-  
 
   postcss: {
     plugins: {
-      '@tailwindcss/postcss': {}, // Updated line
+      "@tailwindcss/postcss": {}, // Updated line
       autoprefixer: {},
       "postcss-nesting": {},
     },
   },
 
   vite: {
-    plugins: [
-      tailwindcss(),
-    ],
+    plugins: [tailwindcss()],
   },
 
   build: {
-    transpile: ['vuetify'],
+    transpile: ["vuetify"],
   },
 
   devServer: {
-    host: "192.168.118.220", // Change to "localhost" or specific IP
+    host: "192.168.5.220", // Change to "localhost" or specific IP
     port: 3000, // Change the port as needed
   },
 
   pwa: {
-    registerType: 'autoUpdate',
+    registerType: "autoUpdate",
     manifest: {
-      name: 'Smart Class',
-      short_name: 'SClass',
-      description: 'Class management app',
-      theme_color: '#ffffff',
+      name: "Smart Class",
+      short_name: "SClass",
+      description: "Class management app",
+      theme_color: "#ffffff",
       icons: [
         {
-          src: '/favicon.ico',
-          sizes: '192x192',
-          type: 'image/png',
+          src: "/favicon.ico",
+          sizes: "192x192",
+          type: "image/png",
         },
-        
       ],
     },
     workbox: {
-      navigateFallback: '/',
+      navigateFallback: "/",
       runtimeCaching: [
         {
           urlPattern: /^https:\/\/api\.example\.com\//,
-          handler: 'NetworkFirst',
+          handler: "NetworkFirst",
           options: {
-            cacheName: 'api-cache',
+            cacheName: "api-cache",
             expiration: {
               maxEntries: 50,
               maxAgeSeconds: 86400,
@@ -64,7 +60,24 @@ export default defineNuxtConfig({
     },
     devOptions: {
       enabled: true, // Enables PWA in development mode
-      type: 'module',
+      type: "module",
+    },
+  },
+
+  nitro: {
+    devProxy: {
+      '/api': {
+        target: 'http://192.168.5.220:8000',
+        changeOrigin: true,
+        prependPath: false,
+      }
+    }
+  },
+
+  runtimeConfig: {
+    public: {
+      apiBase: "http://192.168.5.220:8000/api",
+      apiBaseUrl: "http://192.168.5.220:8000",
     },
   },
 

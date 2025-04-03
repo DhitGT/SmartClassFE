@@ -1,41 +1,47 @@
 <template>
-  <div class="container min-h-screen pb-12 flex flex-col gap-4 mx-auto rounded-lg">
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 ">
+  <div
+    class="container min-h-screen pb-12 flex flex-col gap-2 md:gap-4 mx-auto rounded-lg"
+  >
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-4">
       <DashboardCashCard
-        title="Total Revenue"
-        amount="$124,500"
-        subtitle="↑ 8.4% this month"
+        title="Curent Cash"
+        :amount="formatToIDR(cashStore?.data?.total_cash)"
+        subtitle="Cash Balance"
+        icon="CurrencyDollarIcon"
+        :iconColor="'yellow'"
+        class=""
+      />
+      <DashboardCashCard
+        title="Revenue"
+        :amount="formatToIDR(cashStore?.data?.total_revenue)"
+        :subtitle="`${cashStore?.data?.percentage_arrow} ${cashStore?.data?.percentage_change} this month`"
+        :iconColor="'blue'"
         icon="CurrencyDollarIcon"
       />
       <DashboardCashCard
         title="Pending Payments"
-        amount="$12,850"
-        subtitle="15 transactions"
+        :amount="formatToIDR(cashStore?.data?.total_pending_payment)"
+        :subtitle="`${cashStore?.data?.pending_members_count} Member`"
         icon="ClockIcon"
-      />
-      <DashboardCashCard
+        :iconColor="'red'"
+        />
+        <DashboardCashCard
         title="Completed Payments"
-        amount="$98,230"
-        subtitle="243 transactions"
+        :amount="formatToIDR(cashStore?.data?.total_completed_payment)"
+        :subtitle="`${cashStore?.data?.completed_members_count} Member`"
         icon="CheckCircleIcon"
-        class="hidden md:block"
-      />
-      <DashboardCashCard
-        title="Active Students"
-        amount="485"
-        subtitle="Paid this month"
-        icon="UserIcon"
-        class="hidden md:block"
+        class=""
+        :iconColor="'green'"
       />
     </div>
-    <DashboardCashTransactionTable class="hidden md:block" />
-    <DashboardCashTransactionList class="md:hidden" />
-    <DashboardCashHistory/>
+    <DashboardCashTransactionTable />
+    <!-- <DashboardCashTransactionList class="md:hidden" /> -->
+    <DashboardCashHistory />
   </div>
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
+import { ref, computed, onMounted } from "vue";
 import {
   PlusIcon,
   UserIcon,
@@ -44,9 +50,42 @@ import {
 } from "@heroicons/vue/24/outline";
 import { useRoute } from "vue-router";
 
+import { useCashStore } from "/stores/cash";
+const cashStore = useCashStore();
+
+const getCashLog = async () => {
+  await cashStore.getCashLog();
+  console.log("CASH STORE DATA : ", cashStore.cashLogData);
+};
+const getClassCashSummary = async () => {
+  await cashStore.getClassCashSummary();
+  console.log("CASH STORE DATA : ", cashStore.data);
+};
+const listPembayaranPerBulan = async () => {
+  await cashStore.listPembayaranPerBulan();
+  console.log("CASH STORE DATA : ", cashStore.data);
+};
+
+onMounted(() => {
+  getClassCashSummary();
+  getCashLog();
+  listPembayaranPerBulan();
+});
+
 definePageMeta({
   layout: "dashboard",
 });
+
+function formatToIDR(amount) {
+  // Ensure the input is a number
+  if (isNaN(amount)) {
+    // throw new Error("Input must be a valid number");
+    return 0
+  }
+
+  // Convert the amount to a string and format it
+  return "Rp "+ amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") ;
+}
 </script>
 
 <style scoped>

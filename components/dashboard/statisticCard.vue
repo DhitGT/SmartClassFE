@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex flex-col items-center justify-start p-4 bg-white rounded-lg shadow-md w-[50%] md:min-w-0 md:w-xs"
+    class="flex flex-col items-center justify-start p-4 bg-white rounded-lg shadow-md md:min-w-0 "
   >
     <div
       class="flex flex-col md:flex-row md:items-center justify-between min-w-full md:mb-2 text-3xl text-blue-500"

@@ -7,7 +7,7 @@
       :class="[
         'fixed left-0 top-0 h-full w-64 bg-white shadow-md p-4 z-40 transition-transform duration-300',
         isOpen ? 'translate-x-0' : '-translate-x-full',
-        'md:translate-x-0 md:block',
+        'lg:translate-x-0 lg:block',
       ]"
     >
       <h1 class="text-xl font-bold text-blue-600">SmartClass</h1>
@@ -33,7 +33,7 @@
     <!-- Overlay for mobile -->
     <div
       v-if="isOpen"
-      class="fixed inset-0 bg-black opacity-50 z-30 md:hidden"
+      class="fixed inset-0 bg-black opacity-50 z-30 lg:hidden"
       @click="$emit('update:isOpen', false)"
     ></div>
   </div>
@@ -58,13 +58,13 @@ const props = defineProps({
 const menuItems = [
   { name: "Dashboard", path: "/dashboard", icon: HomeIcon },
   {
-    name: "Teachers",
-    path: "/dashboard/userManagement?is=teachers",
+    name: "Member",
+    path: "/dashboard/userManagement",
     icon: UserIcon,
   },
   {
-    name: "Members",
-    path: "/dashboard/userManagement?is=members",
+    name: "Teacher",
+    path: "/dashboard/teachers",
     icon: UsersIcon,
   },
   {

@@ -11,9 +11,40 @@
       <div class="flex-1">
         <h2 class="text-base font-semibold">{{ name }}</h2>
         <p class="text-gray-500 text-xs">{{ email }}</p>
+        <div class="flex items-center gap-2">
+          <LockClosedIcon class="w-3 h-3 text-gray-500" />
+          <p class="text-gray-500 text-xs">{{ access_code }}</p>
+        </div>
       </div>
-      <div class="ml-4">
-        <component :is="EllipsisVerticalIcon" class="h-5 w-5 text-gray-600" />
+      <div class="relative ml-4">
+        <!-- Ellipsis Icon -->
+        <button @click="toggleDropdown" class="focus:outline-none">
+          <component :is="EllipsisVerticalIcon" class="h-5 w-5 text-gray-600" />
+        </button>
+
+        <!-- Dropdown Menu -->
+        <div
+          v-if="isDropdownOpen"
+          class="absolute right-0 mt-2 w-48 p-2 gap-2 flex flex-col bg-white border rounded-lg shadow-lg z-10"
+        >
+          <DashboardFormEditMemberForm
+            @update="updateMemberAction"
+            :member="props.member"
+            :type="'mobile'"
+          />
+          <ReusableDeleteButton
+            :type="'mobile'"
+            @delete="confirmDelete(props.member)"
+          />
+        </div>
+
+        <!-- Edit Member Form (Hidden by default) -->
+        <DashboardFormEditMemberForm
+          v-if="isEditFormOpen"
+          @update="updateMemberAction"
+          :member="props.member"
+          :type="'mobile'"
+        />
       </div>
     </div>
     <div class="flex w-full justify-between">
@@ -36,15 +67,38 @@
 
 <script setup>
 // Importing Heroicons
-import { EllipsisVerticalIcon } from "@heroicons/vue/24/outline";
-import { defineProps } from "vue";
+import {
+  EllipsisVerticalIcon,
+  LockClosedIcon,
+} from "@heroicons/vue/24/outline";
+import { defineProps, ref, defineEmits } from "vue";
 
-defineProps({
+const props = defineProps({
   name: String,
   email: String,
+  access_code: String,
   badge: Object,
   date: String,
+  member: Object,
 });
+
+const emit = defineEmits(["update", "delete", "close"]);
+
+const isDropdownOpen = ref(false);
+const isEditFormOpen = ref(false);
+
+const toggleDropdown = () => {
+  isDropdownOpen.value = !isDropdownOpen.value;
+};
+
+const confirmDelete = (member) => {
+  emit("delete", member);
+  showModal.value = false;
+};
+const updateMemberAction = (formdata) => {
+  console.log("update woi , ",formdata)
+  emit("update", formdata); // Close dropdown when opening edit form
+};
 </script>
 
 <style scoped>

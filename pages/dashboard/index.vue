@@ -20,6 +20,19 @@ const studentsIcon = UserGroupIcon;
 const subjectsIcon = BookOpenIcon;
 const revenueIcon = CurrencyDollarIcon;
 
+
+import { useDashboardStore } from '~/stores/dashboard';
+const dashboardStore = useDashboardStore();
+const getCountData = async () => {
+    await dashboardStore.getCountData()
+    console.log("data ini : ",dashboardStore.data.data) 
+};
+
+onMounted(() => {
+    getCountData()
+});
+
+
 definePageMeta({
   layout: "dashboard",
 });
@@ -28,31 +41,31 @@ definePageMeta({
   <!-- <DashboardSidebar/> -->
 
   <div class="flex flex-col gap-4  mb-[3rem]">
-    <div class="flex containe justify-between md:gap-4 gap-4 max-w-sm md:max-w-full">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-4 max-w-sm md:max-w-full">
       <DashboardStatisticCard
         :icon="musicIcon"
-        :count="24"
+        :count="dashboardStore?.data?.data?.teachers"
         title="Teachers"
         :percentage="'+2.5%'"
       />
       <DashboardStatisticCard
         :icon="studentsIcon"
-        :count="485"
+        :count="dashboardStore?.data?.data?.students"
         title="Students"
         :percentage="'+12.3%'"
       />
       <DashboardStatisticCard
         :icon="subjectsIcon"
-        :count="12"
+        :count="dashboardStore?.data?.data?.subjects"
         title="Subjects"
-        class="hidden md:block"
+      
         :percentage="'+1.8%'"
       />
       <DashboardStatisticCard
         :icon="revenueIcon"
-        :count="($24, 500)"
-        title="Revenue"
-        class="hidden md:block"
+        :count="(dashboardStore?.data?.data?.cash)"
+        title="Cash"
+      
         :percentage="'+8.4%'"
       />
     </div>

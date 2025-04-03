@@ -5,13 +5,13 @@
       <DashboardManagementCard
         title="Teachers"
         description="Manage faculty"
-        cardhref="userManagement?is=teachers"
+        cardhref="teachers"
         icon="UserGroupIcon"
       />
       <DashboardManagementCard
         title="Members"
         description="Student records"
-        cardhref="userManagement?is=members"
+        cardhref="userManagement"
         icon="UsersIcon"
       />
       <DashboardManagementCard

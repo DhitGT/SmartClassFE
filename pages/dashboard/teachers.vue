@@ -4,29 +4,30 @@
     <input
       type="text"
       v-model="search"
-      placeholder="Search users..."
+      placeholder="Search teachers..."
       class="md:hidden block input input-bordered w-full border bg-white border-gray-300 rounded-md p-2"
       @input="debouncedSearch"
     />
     <div class="flex justify-between gap-4">
       <div class="flex items-center w-full md:w-fit justify-start gap-4">
         <input
-          type="text"
+          type="text" 
           v-model="search"
-          placeholder="Search users..."
+          placeholder="Search teachers..."
           class="hidden md:block input input-bordered w-full border bg-white border-gray-300 rounded-md p-2"
           @input="debouncedSearch"
         />
-        <select
-          v-model="role"
+        <!-- <select
+          v-model="subject"
           class="select w-full border border-gray-300 bg-white rounded-md p-2"
-          @change="handleRoleFilter(role)"
+          @change="handleSubjectFilter(subject)"
         >
-          <option value="">All</option>
-          <option value="Secretary">Secretary</option>
-          <option value="Treasurer">Treasurer</option>
-          <option value="Member">Member</option>
-        </select>
+          <option value="">All Subjects</option>
+          <option value="Math">Math</option>
+          <option value="Science">Science</option>
+          <option value="English">English</option>
+          <option value="History">History</option>
+        </select> -->
       </div>
       <select
         v-model="pageSize"
@@ -43,9 +44,9 @@
         class="btn btn-primary rounded-lg flex items-center bg-blue-500 text-white px-4 hover:bg-blue-600"
       >
         <PlusIcon class="h-4 w-4 md:mr-2" />
-        <span class="hidden md:block"> Add New User </span>
+        <span class="hidden md:block"> Add New Teacher </span>
       </button>
-      <DashboardFormMember
+      <DashboardFormTeacher
         v-if="showModal"
         @submit="handleSubmit"
         @close="showModal = false"
@@ -58,11 +59,10 @@
         <thead>
           <tr class="bg-white text-start">
             <th class="px-4 text-start text-gray-500 py-2 rounded-t-xl">
-              User
+              Teacher
             </th>
-            <th class="px-4 text-start text-gray-500 py-2">Role</th>
+            <th class="px-4 text-start text-gray-500 py-2">Subject</th>
             <th class="px-4 text-start text-gray-500 py-2">Joined Date</th>
-            <th class="px-4 text-start text-gray-500 py-2">Password</th>
             <th class="px-4 text-start text-gray-500 py-2 rounded-t-xl">
               Actions
             </th>
@@ -70,33 +70,28 @@
         </thead>
         <tbody>
           <tr
-            v-for="member in members"
-            :key="member.user.email"
+            v-for="teacher in teachers"
+            :key="teacher.id"
             class="bg-white border-y-1 border-gray-200 hover:bg-gray-50"
           >
             <td class="px-4 py-2 flex items-center gap-2">
               <img
-                :src="member.user.avatar ? `${useRuntimeConfig().public.apiBaseUrl}/storage/${member.user.avatar}`: 'https://placehold.co/300'"
+                :src="teacher.avatar ? `${useRuntimeConfig().public.apiBaseUrl}/storage/${teacher.avatar}`: 'https://placehold.co/300'"
                 class="h-10 w-10 object-cover rounded-full"
               />
               <div class="leading-5">
-                <span class="font-semibold">{{ member.user.name }}</span
-                ><br />
-                <span class="text-sm text-gray-500">{{
-                  member.user.email
-                }}</span>
+                <span class="font-semibold">{{ teacher.name }}</span>
               </div>
             </td>
-            <td class="px-4 py-2">{{ member.user.role }}</td>
-            <td class="px-4 py-2">{{ formatDate(member.user.created_at) }}</td>
-            <td class="px-4 py-2">{{ member.access_code }}</td>
+            <td class="px-4 py-2">{{ teacher.subject ? teacher.subject.name : 'Not assigned' }}</td>
+            <td class="px-4 py-2">{{ formatDate(teacher.created_at) }}</td>
 
             <td class="px-4 py-2 flex gap-2">
-              <DashboardFormEditMemberForm
-                @update="updateMemberAction"
-                :member="member"
+              <DashboardFormEditTeacherForm
+                @update="updateTeacherAction"
+                :teacher="teacher"
               />
-              <ReusableDeleteButton @delete="deleteMemberAction(member)" />
+              <ReusableDeleteButton @delete="deleteTeacherAction(teacher)" />
             </td>
           </tr>
         </tbody>
@@ -107,8 +102,8 @@
         <div class="flex items-center gap-4">
           <p class="text-sm">
             Showing {{ (page - 1) * pageSize + 1 }} to
-            {{ Math.min(page * pageSize, userStore.totalMembers) }} of
-            {{ userStore.totalMembers }} entries
+            {{ Math.min(page * pageSize, teacherStore.data.teachers?.total) }} of
+            {{ teacherStore.data.teachers?.total }} entries
           </p>
           <select
             v-model="pageSize"
@@ -156,17 +151,17 @@
       </div>
     </div>
     <div class="md:hidden flex flex-col gap-4">
-      <DashboardUserCard
-        v-for="member in members"
-        :key="member.user.email"
-        :name="member.user.name"
-        :email="member.user.email"
-        :access_code="member.access_code"
-        :date="formatDate(member.user.created_at)"
-        :badge="{ name: member.user.role, color: 'red' }"
-        :member="member"
-        @update="updateMemberAction"
-        @delete="deleteMemberAction(member)"
+      <DashboardTeacherCard
+        v-for="teacher in teachers"
+        :key="teacher.id"
+        :name="teacher.name"
+        :subject="teacher.subject ? teacher.subject.name : 'Not assigned'"
+        :date="formatDate(teacher.created_at)"
+        :avatar="teacher.avatar"
+        :icon="teacher.subject?.icon"
+        :teacher="teacher"
+        @update="updateTeacherAction"
+        @delete="deleteTeacherAction(teacher)"
       />
 
       <!-- Mobile Pagination -->
@@ -198,97 +193,91 @@
 import { ref, computed, watch, onMounted } from "vue";
 import { PlusIcon, PencilIcon, TrashIcon } from "@heroicons/vue/24/outline";
 import { useRoute } from "vue-router";
-import { DashboardFormMember, ReusableDeleteButton } from "#components";
-import { useUserStore } from "~/stores/user";
+import { DashboardFormTeacher, ReusableDeleteButton } from "#components";
+import { useTeacherStore } from "~/stores/teacher";
 
-const userStore = useUserStore();
+const teacherStore = useTeacherStore();
 const route = useRoute();
 const search = ref("");
 const page = ref(1);
-const role = ref("");
+const subject = ref("");
 const menuOpen = ref(false);
-const selectedCategory = ref("Teachers");
 const showModal = ref(false);
-const members = ref([]);
+const teachers = ref([]);
 const totalPages = ref(1);
 const pageSize = ref(10); // Default page size
+const currentClass = ref({});
 
 const userType = computed(() => route.query.is || "default");
 
 const handleSubmit = async (formData) => {
-  console.log("New Member Data:", formData);
-  // toast.success('Success Add New Member');
-  await userStore.addMember(formData);
+  console.log("New Teacher Data:", formData);
+  // toast.success('Success Add New Teacher');
+  await teacherStore.addTeacher(formData);
   showModal.value = false;
-  await getMember();
+  await getTeachers();
 };
 
 const setPage = (newPage) => {
   if (newPage >= 1 && newPage <= totalPages.value) {
     page.value = newPage;
-    getMember();
+    getTeachers();
   }
 };
 
 const handleSearch = () => {
   page.value = 1; // Reset to first page when searching
-  getMember();
+  getTeachers();
 };
 
-const handleRoleFilter = (selectedRole) => {
-  role.value = selectedRole;
+const handleSubjectFilter = (selectedSubject) => {
+  subject.value = selectedSubject;
   page.value = 1; // Reset to first page when filtering
-  getMember();
+  getTeachers();
 };
 
 const clearFilters = () => {
   search.value = "";
-  role.value = "";
+  subject.value = "";
   page.value = 1;
-  getMember();
+  getTeachers();
 };
 
-const deleteMemberAction = async (member) => {
-  console.log("Deleting member:", member);
-
-  const formData = { member_id: member.id, user_id: member.user.id };
-
-  await userStore.deleteMember(formData);
-  await getMember();
+const deleteTeacherAction = async (teacher) => {
+  console.log("Deleting teacher:", teacher);
+  const formData = new FormData();
+  formData.append('id',teacher.id)
+  await teacherStore.deleteTeacher(formData);
+  await getTeachers();
 };
 
-const updateMemberAction = async (member) => {
+const updateTeacherAction = async (teacher) => {
   let formData = new FormData()
-  formData.append('id',member.id)
-  formData.append('name',member.user.name)
-  formData.append('email',member.user.email)
-  formData.append('role',member.user.role)
-  formData.append('access_code',member.access_code)
-  formData.append('avatar',member.avatar)
-  // let formDatas = {
-  //   id: member.id,
-  //   name: member.user.name,
-  //   email: member.user.email,
-  //   role: member.user.role,
-  //   access_code: member.access_code,
-  // };
-  await userStore.editMember(formData);
+  formData.append('id', teacher.id)
+  formData.append('name', teacher.name)
+  formData.append('subject_id', teacher.subject_id)
+  if(teacher.avatar){
+    formData.append('avatar', teacher.avatar)
+  }
+  
+  await teacherStore.editTeacher(formData);
   showModal.value = false;
-  await getMember();
-  console.log("Updating member:", member);
+  await getTeachers();
+  console.log("Updating teacher:", teacher);
 };
 
-const getMember = async () => {
+const getTeachers = async () => {
   console.log("search val : ", search.value);
-  await userStore.getMember(
+  await teacherStore.getTeacher(
     search.value,
-    role.value,
+    subject.value,
     page.value,
     pageSize.value
   );
-  members.value = userStore.members; // Ensure reactivity
-  totalPages.value = userStore.pagination.last_page;
-  console.log("Updated members:", members.value);
+  teachers.value = teacherStore.data.teachers.data || []; // Ensure reactivity
+  currentClass.value = teacherStore.data.class || {};
+  totalPages.value = teacherStore.data.teachers.last_page || 1;
+  console.log("Updated teachers:", teachers.value);
 };
 
 // Debounce function to prevent excessive API calls during typing
@@ -303,7 +292,7 @@ const debounce = (fn, delay) => {
 // Apply debounce to search
 const debouncedSearch = debounce(() => {
   page.value = 1; // Reset to first page when search changes
-  getMember();
+  getTeachers();
 }, 500);
 
 // Watch for changes in search input
@@ -311,14 +300,14 @@ watch(search, () => {
   debouncedSearch();
 });
 
-// Watch for changes in role filter
-watch(role, () => {
+// Watch for changes in subject filter
+watch(subject, () => {
   page.value = 1; // Reset to first page when filter changes
-  getMember();
+  getTeachers();
 });
 
 onMounted(() => {
-  getMember();
+  getTeachers();
 });
 
 const formatDate = (timestamp) => {
@@ -379,7 +368,7 @@ const getPageNumbers = () => {
 const changePageSize = (size) => {
   pageSize.value = size;
   page.value = 1; // Reset to first page
-  getMember();
+  getTeachers();
 };
 
 definePageMeta({

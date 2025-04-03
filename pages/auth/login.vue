@@ -1,6 +1,24 @@
+<script setup>
+import { useAuthStore } from '~/stores/auth';
+import { ref } from 'vue';
+
+const authStore = useAuthStore();
+const email = ref('');
+const password = ref('');
+
+const login = async () => {
+    await authStore.login({ email: email.value, password: password.value });
+    if (authStore.token) {
+        navigateTo('/dashboard');
+    }
+};
+</script>
+
 <template>
-    <div class="flex justify-center items-center h-screen bg-gray-100">
-      <h1 class="text-4xl font-bold text-blue-600">Hello, Nuxt 3 + Tailwind!</h1>
+    <div class="p-6 max-w-md mx-auto">
+        <h2 class="text-xl font-bold">Login</h2>
+        <input v-model="email" type="email" placeholder="Email" class="p-2 border rounded w-full mt-2" />
+        <input v-model="password" type="password" placeholder="Password" class="p-2 border rounded w-full mt-2" />
+        <button @click="login" class="mt-3 bg-blue-500 text-white p-2 rounded w-full">Login</button>
     </div>
-  </template>
-  
+</template>

@@ -1,14 +1,21 @@
 <template>
-  <div class="bg-white shadow-md rounded-lg p-4 md:p-6">
+  <div
+    class="bg-white shadow-md flex flex-col justify-evenly rounded-lg p-4 md:p-6"
+  >
     <div class="flex items-center justify-between mb-4">
       <component
         :is="iconComponent"
-        class="h-9 w-9 bg-gray-200 p-2 rounded text-gray-900 mr-2"
+        :class="[
+          `text-${iconColor}-600`,
+          `bg-${iconColor}-200`,
+          'w-6 h-6 md:h-9 md:w-9 md:p-1 lg:p-2 rounded-full md:rounded mr-2',
+        ]"
+        
       />
       <h3 class="text-sm md:text-base font-semibold">{{ displayTitle }}</h3>
     </div>
-    <p class="text-2xl font-bold">{{ amount }}</p>
-    <p class="text-gray-500 text-xs md:text-base ">{{ subtitle }}</p>
+    <p class="text-sm md:text-2xl font-bold">{{ amount }}</p>
+    <p class="text-gray-500 text-xs md:text-base">{{ subtitle }}</p>
   </div>
 </template>
 
@@ -26,6 +33,7 @@ const props = defineProps({
   title: String,
   amount: String,
   subtitle: String,
+  iconColor: String,
   icon: String,
 });
 
