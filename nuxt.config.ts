@@ -23,7 +23,7 @@ export default defineNuxtConfig({
   },
 
   devServer: {
-    host: "192.168.5.220", // Change to "localhost" or specific IP
+    host: "192.168.129.220", // Change to "localhost" or specific IP
     port: 3000, // Change the port as needed
   },
 
@@ -67,7 +67,7 @@ export default defineNuxtConfig({
   nitro: {
     devProxy: {
       '/api': {
-        target: 'http://192.168.5.220:8000',
+        target: 'http://192.168.129.220:8000',
         changeOrigin: true,
         prependPath: false,
       }
@@ -76,8 +76,8 @@ export default defineNuxtConfig({
 
   runtimeConfig: {
     public: {
-      apiBase: "http://192.168.5.220:8000/api",
-      apiBaseUrl: "http://192.168.5.220:8000",
+      apiBase: "http://192.168.129.220:8000/api",
+      apiBaseUrl: "http://192.168.129.220:8000",
     },
   },
 

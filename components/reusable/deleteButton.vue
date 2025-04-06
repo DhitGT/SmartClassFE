@@ -31,7 +31,7 @@ const openModal = () => {
 };
 
 const confirmDelete = () => {
-  emit("delete");
   showModal.value = false;
+  emit("delete");
 };
 </script>
