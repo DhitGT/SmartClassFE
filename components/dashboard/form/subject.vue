@@ -1,6 +1,6 @@
 <script setup>
 import { ref, defineEmits } from 'vue';
-import { BookOpenIcon, CalculatorIcon, BeakerIcon, GlobeAltIcon,ComputerDesktopIcon } from '@heroicons/vue/24/outline';
+import { BookOpenIcon, CalculatorIcon,CircleStackIcon, BeakerIcon, GlobeAltIcon,ComputerDesktopIcon } from '@heroicons/vue/24/outline';
 
 const name = ref('');
 const description = ref('');
@@ -12,6 +12,7 @@ const icons = [
   { name: 'Geography', value: 'GlobeAltIcon', component: GlobeAltIcon },
   { name: 'Literature', value: 'BookOpenIcon', component: BookOpenIcon },
   { name: 'Computer', value: 'ComputerDesktopIcon', component: ComputerDesktopIcon },
+  { name: 'Database', value: 'CircleStackIcon', component: CircleStackIcon },
 ];
 
 const emit = defineEmits(['submit', 'close']);

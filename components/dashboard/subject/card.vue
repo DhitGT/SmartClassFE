@@ -70,8 +70,9 @@
 
 <script setup>
 import { computed } from "vue";
-import { UserIcon,EllipsisVerticalIcon, BookOpenIcon, CalculatorIcon, BeakerIcon, GlobeAltIcon, ComputerDesktopIcon } from "@heroicons/vue/24/outline";
+import { UserIcon,EllipsisVerticalIcon,CircleStackIcon, BookOpenIcon, CalculatorIcon, BeakerIcon, GlobeAltIcon, ComputerDesktopIcon } from "@heroicons/vue/24/outline";
 import clickOutside from "@/directives/clickOutside";
+
 
 const props = defineProps({
   subject: Object, // Expected to contain `icon`
@@ -81,6 +82,7 @@ const icons = {
   BookOpenIcon,
   CalculatorIcon,
   BeakerIcon,
+  CircleStackIcon,
   GlobeAltIcon,
   ComputerDesktopIcon,
 };

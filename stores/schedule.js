@@ -8,7 +8,9 @@ export const useScheduleStore = defineStore("schedule", {
     // token: process.client ? localStorage.getItem("token") : null,
     data: [],
     idleSubject: [],
+    idleMember: [],
     scheduleSubject: [],
+    scheduleDuty: [],
   }),
 
   actions: {
@@ -38,6 +40,24 @@ export const useScheduleStore = defineStore("schedule", {
         console.error("Registration error:", error);
       }
     },
+    async GetIdleMember() {
+      try {
+        const { data } = await useFetch("/schedule/GetIdleMember", {
+          method: "POST",
+          baseURL: useRuntimeConfig().public.apiBase,
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${
+              process.client ? localStorage.getItem("token") : null
+            }`,
+          },
+        });
+        this.idleMember = data?.value?.members;
+        console.log("pinia daatass:", this.idleMember);
+      } catch (error) {
+        console.error("Registration error:", error);
+      }
+    },
     async GetClassSubjectSchedule() {
       try {
         const { data } = await useFetch("/schedule/GetClassSubjectSchedule", {
@@ -52,6 +72,24 @@ export const useScheduleStore = defineStore("schedule", {
         });
         this.scheduleSubject = data?.value?.schedule;
         console.log("pinia daatass:", this.scheduleSubject);
+      } catch (error) {
+        console.error("Registration error:", error);
+      }
+    },
+    async GetClassDutySchedule() {
+      try {
+        const { data } = await useFetch("/schedule/GetClassDutySchedule", {
+          method: "POST",
+          baseURL: useRuntimeConfig().public.apiBase,
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${
+              process.client ? localStorage.getItem("token") : null
+            }`,
+          },
+        });
+        this.scheduleDuty = data?.value?.schedule;
+        console.log("pinia daatass:", this.scheduleDuty);
       } catch (error) {
         console.error("Registration error:", error);
       }
@@ -81,9 +119,58 @@ export const useScheduleStore = defineStore("schedule", {
         this.showToast("error", "Failed to set schedule.");
       }
     },
+    async SetDutySchedule(payload) {
+      try {
+        const { data } = await useFetch("/schedule/SetDutySchedule", {
+          method: "POST",
+          body: payload, // FormData is correctly passed
+          baseURL: useRuntimeConfig().public.apiBase,
+          headers: {
+            Authorization: `Bearer ${
+              process.client ? localStorage.getItem("token") : null
+            }`,
+          }, // Remove "Content-Type"
+        });
+
+        console.log("pinia data:", data);
+
+        if (data.value) {
+          // this.data = data.value;
+          this.message = data.value.message;
+          this.showToast(data.value.messageType || "success", this.message);
+        }
+      } catch (error) {
+        console.error("Registration error:", error);
+        this.showToast("error", "Failed to set schedule.");
+      }
+    },
     async RemoveSchedule(payload) {
       try {
         const { data } = await useFetch("/schedule/RemoveSchedule", {
+          method: "POST",
+          body: payload, // FormData is correctly passed
+          baseURL: useRuntimeConfig().public.apiBase,
+          headers: {
+            Authorization: `Bearer ${
+              process.client ? localStorage.getItem("token") : null
+            }`,
+          }, // Remove "Content-Type"
+        });
+
+        console.log("pinia data:", data);
+
+        if (data.value) {
+          this.message = data.value.message;
+          this.showToast(data.value.messageType || "success", this.message);
+        }
+      } catch (error) {
+        console.error("Registration error:", error);
+        this.showToast("error", "Failed to set schedule.");
+      }
+    },
+    async RemoveDutySchedule(payload) {
+      try {
+        const { data } = await useFetch("/schedule/RemoveDutySchedule", {
           method: "POST",
           body: payload, // FormData is correctly passed
           baseURL: useRuntimeConfig().public.apiBase,

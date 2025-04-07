@@ -17,6 +17,7 @@
     UsersIcon,
     BanknotesIcon,
     CalendarIcon,
+    CircleStackIcon,
     BookOpenIcon,
     ClipboardDocumentListIcon,
   } from "@heroicons/vue/24/outline";
@@ -32,6 +33,7 @@
   // Icon mapping
   const icons = {
     UserGroupIcon,
+    CircleStackIcon,
     UsersIcon,
     BanknotesIcon,
     CalendarIcon,

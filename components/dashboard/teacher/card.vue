@@ -97,6 +97,7 @@ import {
   EllipsisVerticalIcon,
   BeakerIcon,
   GlobeAltIcon,
+  CircleStackIcon,
   ComputerDesktopIcon,
 } from "@heroicons/vue/24/outline";
 
@@ -134,6 +135,7 @@ const icons = {
   CalculatorIcon,
   BeakerIcon,
   GlobeAltIcon,
+  CircleStackIcon,
   ComputerDesktopIcon,
 };
 

@@ -109,6 +109,7 @@ import {
   CalculatorIcon,
   BeakerIcon,
   GlobeAltIcon,
+  CircleStackIcon,
   ComputerDesktopIcon,
 } from "@heroicons/vue/24/outline";
 
@@ -128,6 +129,7 @@ const icons = [
   { name: "Science", value: "BeakerIcon", component: BeakerIcon },
   { name: "Geography", value: "GlobeAltIcon", component: GlobeAltIcon },
   { name: "Literature", value: "BookOpenIcon", component: BookOpenIcon },
+  { name: 'Database', value: 'CircleStackIcon', component: CircleStackIcon },
   {
     name: "Computer",
     value: "ComputerDesktopIcon",
