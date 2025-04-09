@@ -1,9 +1,16 @@
 <template>
   <div class="w-full mx-auto">
-    <div class="bg-white max-h-[60vh] overflow-y-scroll shadow-lg rounded-lg p-6">
+    <div
+      class="bg-white max-h-[60vh] overflow-y-scroll shadow-lg rounded-lg p-6"
+    >
       <div class="flex justify-between items-center">
         <h2 class="text-xl font-bold">Recent Tasks</h2>
-        <a href="#" class="text-blue-500 hover:underline">View All</a>
+        <NuxtLink
+          :to="'/dashboard/tasks'"
+          class="flex items-center p-2 text-gray-700 hover:bg-blue-500 hover:text-white rounded-md"
+        >
+          View All
+        </NuxtLink>
       </div>
 
       <!-- Responsive Wrapper -->
@@ -52,7 +59,7 @@
               <td
                 class="border-b border-gray-200 px-2 py-3 text-sm md:text-base"
               >
-                {{ formatDate(task.due_to)}}
+                {{ formatDate(task.due_to) }}
               </td>
               <td class="border-b border-gray-200 px-2 py-3">
                 <p
@@ -88,7 +95,7 @@ onMounted(async () => {
 // Function to fetch tasks based on search and selected subject
 const fetchTasks = async () => {
   tasks.value = await taskStore.getTask();
-  console.log("TASK : ",tasks.value)
+  console.log("TASK : ", tasks.value);
 };
 
 const formatDate = (timestamp) => {
@@ -103,8 +110,6 @@ const formatDate = (timestamp) => {
     // hour12: true,
   });
 };
-
-
 
 const task = [
   {

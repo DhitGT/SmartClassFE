@@ -60,7 +60,7 @@
             : 'https://placehold.co/300'
         "
         alt="User Avatar"
-        class="h-4 w-4 rounded-full"
+        class="h-4 w-4 rounded-full object-cover"
       />
         <p class="text-sm text-gray-700 "  >{{ subject.teacher?.name }}</p>
       </div>

@@ -5,8 +5,8 @@
       <!-- Sidebar Toggle Button -->
       <div class="flex items-center gap-2">
         <Bars3Icon
-        class="w-9 h-9 text-blue-600 lg:hidden"
-        @click="toggleSidebar"
+          class="w-9 h-9 text-blue-600 lg:hidden"
+          @click="toggleSidebar"
         />
         <div class="hidden md:block">
           <h1 class="text-2xl font-bold text-gray-900">Dashboard Overview</h1>
@@ -15,15 +15,19 @@
       </div>
 
       <div class="flex items-center space-x-4">
-
-
         <!-- User Dropdown -->
         <div class="relative">
           <div class="flex items-center cursor-pointer" @click="toggleDropdown">
             <img
-              :src="user?.avatar || 'https://placehold.co/40'"
+              :src="
+                user?.avatar
+                  ? `${useRuntimeConfig().public.apiBaseUrl}/storage/${
+                      user?.avatar
+                    }`
+                  : 'https://placehold.co/300'
+              "
               alt="User Avatar"
-              class="w-10 h-10 rounded-full"
+              class="w-10 h-10 object-cover rounded-full"
             />
             <span class="ml-2 text-gray-900">{{ user?.name || "User" }}</span>
           </div>

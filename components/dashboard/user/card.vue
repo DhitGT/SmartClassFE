@@ -4,9 +4,15 @@
   >
     <div class="flex items-center w-full">
       <img
-        src="https://placehold.co/50"
+      :src="
+          avatar
+            ? `${useRuntimeConfig().public.apiBaseUrl}/storage/${
+                avatar
+              }`
+            : 'https://placehold.co/300'
+        "
         alt="User Avatar"
-        class="h-12 w-12 rounded-full mr-4"
+        class="h-12 w-12 object-cover rounded-full mr-4"
       />
       <div class="flex-1">
         <h2 class="text-base font-semibold">{{ name }}</h2>
@@ -76,6 +82,7 @@ import { defineProps, ref, defineEmits } from "vue";
 const props = defineProps({
   name: String,
   email: String,
+  avatar: String,
   access_code: String,
   badge: Object,
   date: String,

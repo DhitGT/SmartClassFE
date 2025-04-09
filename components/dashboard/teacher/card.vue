@@ -12,7 +12,7 @@
             : 'https://placehold.co/300'
         "
         alt="User Avatar"
-        class="h-12 w-12 rounded-full mr-4"
+        class="h-12 w-12 rounded-full object-cover mr-4"
       />
       <div class="flex-1">
         <h2 class="text-base font-semibold">{{ teacher?.name }}</h2>

@@ -8,7 +8,7 @@ const role = ref('');
 const password = ref('');
 const avatar = ref(null);
 const avatarPreview = ref('');
-const roles = ['Secretary', 'Treasurer', 'Member'];
+const roles = ['Secretary', 'Treasurer', 'Member','Teacher'];
 
 const emit = defineEmits(['submit', 'close']);
 

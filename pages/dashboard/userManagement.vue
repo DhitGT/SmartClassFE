@@ -160,6 +160,7 @@
         v-for="member in members"
         :key="member.user.email"
         :name="member.user.name"
+        :avatar="member.user.avatar"
         :email="member.user.email"
         :access_code="member.access_code"
         :date="formatDate(member.user.created_at)"
