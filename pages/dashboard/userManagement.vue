@@ -264,7 +264,11 @@ const updateMemberAction = async (member) => {
   formData.append('email',member.user.email)
   formData.append('role',member.user.role)
   formData.append('access_code',member.access_code)
-  formData.append('avatar',member.avatar)
+
+  if(member.avatar){
+    formData.append('avatar',member.avatar)
+  }
+
   // let formDatas = {
   //   id: member.id,
   //   name: member.user.name,

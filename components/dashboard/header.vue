@@ -15,15 +15,7 @@
       </div>
 
       <div class="flex items-center space-x-4">
-        <!-- Notification Icon -->
-        <div class="relative">
-          <BellIcon
-            class="w-6 h-6 text-gray-600 cursor-pointer hover:text-gray-800"
-          />
-          <span
-            class="hidden absolute top-0 right-0 h-2 w-2 bg-red-500 rounded-full"
-          ></span>
-        </div>
+
 
         <!-- User Dropdown -->
         <div class="relative">

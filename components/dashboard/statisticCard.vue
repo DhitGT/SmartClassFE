@@ -11,10 +11,10 @@
     <h2 class="text-lg md:text-2xl font-semibold self-start">
       {{ formattedCount }}
     </h2>
-    <div class="md:flex hidden items-center gap-1 self-start">
+    <!-- <div class="md:flex hidden items-center gap-1 self-start">
       <component :is="ArrowUpIcon" class="w-4 h-4 text-green-600" />
       <p class="self-start text-green-600">{{ percentage }}</p>
-    </div>
+    </div> -->
   </div>
 </template>
 

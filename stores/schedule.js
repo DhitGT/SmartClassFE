@@ -10,6 +10,7 @@ export const useScheduleStore = defineStore("schedule", {
     idleSubject: [],
     idleMember: [],
     scheduleSubject: [],
+    nowScheduleSubject: [],
     scheduleDuty: [],
   }),
 
@@ -72,6 +73,24 @@ export const useScheduleStore = defineStore("schedule", {
         });
         this.scheduleSubject = data?.value?.schedule;
         console.log("pinia daatass:", this.scheduleSubject);
+      } catch (error) {
+        console.error("Registration error:", error);
+      }
+    },
+    async GetClassNowSubjectSchedule() {
+      try {
+        const { data } = await useFetch("/schedule/GetClassNowSubjectSchedule", {
+          method: "POST",
+          baseURL: useRuntimeConfig().public.apiBase,
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${
+              process.client ? localStorage.getItem("token") : null
+            }`,
+          },
+        });
+        this.nowScheduleSubject = data?.value?.schedule;
+        console.log("pinia daatass:", this.nowScheduleSubject);
       } catch (error) {
         console.error("Registration error:", error);
       }

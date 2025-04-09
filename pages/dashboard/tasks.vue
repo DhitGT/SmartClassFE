@@ -56,6 +56,7 @@
     <DashboardFormTask
       v-if="showModal"
       @submit="handleSubmit"
+      class="z-[99]"
       @close="showModal = false"
     />
     <DashboardTaskKanban  />

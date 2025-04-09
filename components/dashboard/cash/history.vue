@@ -44,6 +44,10 @@ import {
 } from "@heroicons/vue/24/outline";
 import { useCashStore } from "/stores/cash";
 const cashStore = useCashStore();
+const getCashLog = async () => {
+  await cashStore.getCashLog();
+  console.log("CASH STORE DATA : ", cashStore.cashLogData);
+};
 
 function formatToIDR(amount) {
   return (
@@ -67,10 +71,6 @@ const formatDate = (timestamp) => {
   });
 };
 
-const getCashLog = async () => {
-  await cashStore.getCashLog();
-  console.log("CASH STORE DATA : ", cashStore.cashLogData);
-};
 
 onMounted(async ()=>{
   if(cashStore.cashLogData = []){

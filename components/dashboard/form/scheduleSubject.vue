@@ -84,9 +84,9 @@
 <script setup>
 import { onMounted, ref, defineProps, defineEmits, watch } from "vue";
 import { PencilIcon } from "@heroicons/vue/24/outline";
-import { useScheduleStore } from "~/stores/schedule"; // adjust path as needed
 import { storeToRefs } from "pinia";
 
+import { useScheduleStore } from "~/stores/schedule"; // adjust path as needed
 const scheduleStore = useScheduleStore();
 const { idleSubject } = storeToRefs(scheduleStore); // reactive ref
 const subjects = ref("");

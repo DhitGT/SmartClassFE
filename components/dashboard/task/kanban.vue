@@ -317,12 +317,7 @@
 
       <!-- Mobile Action Button -->
       <div class="fixed bottom-4 right-4">
-        <button
-          class="p-4 bg-blue-600 text-white rounded-full shadow-lg"
-          @click="showMoveOptions = !showMoveOptions"
-        >
-          <span>+</span>
-        </button>
+        
 
         <!-- Move Options -->
         <div

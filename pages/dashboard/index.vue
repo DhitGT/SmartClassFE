@@ -25,8 +25,17 @@ import { useDashboardStore } from '~/stores/dashboard';
 const dashboardStore = useDashboardStore();
 const getCountData = async () => {
     await dashboardStore.getCountData()
-    console.log("data ini : ",dashboardStore.data.data) 
+    console.log("data ini : ",dashboardStore?.data?.data) 
 };
+
+function formatToIDR(amount) {
+  return (
+    "Rp " +
+    (isNaN(amount)
+      ? 0
+      : amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."))
+  );
+}
 
 onMounted(() => {
     getCountData()
@@ -46,27 +55,28 @@ definePageMeta({
         :icon="musicIcon"
         :count="dashboardStore?.data?.data?.teachers"
         title="Teachers"
-        :percentage="'+2.5%'"
+        
       />
       <DashboardStatisticCard
         :icon="studentsIcon"
         :count="dashboardStore?.data?.data?.students"
         title="Students"
-        :percentage="'+12.3%'"
+        
       />
       <DashboardStatisticCard
         :icon="subjectsIcon"
         :count="dashboardStore?.data?.data?.subjects"
         title="Subjects"
       
-        :percentage="'+1.8%'"
+        
+
       />
       <DashboardStatisticCard
         :icon="revenueIcon"
-        :count="(dashboardStore?.data?.data?.cash)"
+        :count="formatToIDR(dashboardStore?.data?.data?.cash) "
         title="Cash"
       
-        :percentage="'+8.4%'"
+        
       />
     </div>
     <div class="md:hidden">
