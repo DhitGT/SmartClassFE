@@ -10,7 +10,7 @@
         'lg:translate-x-0 lg:block',
       ]"
     >
-      <h1 class="text-xl font-bold text-blue-600">SmartClass</h1>
+      <h1 class="text-xl font-bold text-blue-600">Smart Class</h1>
       <nav class="mt-4">
         <ul>
           <li v-for="item in menuItems" :key="item.name" class="my-2">
