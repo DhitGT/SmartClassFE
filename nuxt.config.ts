@@ -67,7 +67,7 @@ export default defineNuxtConfig({
   nitro: {
     devProxy: {
       '/api': {
-        target: 'http://192.168.66.220:8000',
+        target: 'https://smartclassbe-production.up.railway.app/',
         changeOrigin: true,
         prependPath: false,
       }
@@ -76,8 +76,8 @@ export default defineNuxtConfig({
 
   runtimeConfig: {
     public: {
-      apiBase: "http://192.168.66.220:8000/api",
-      apiBaseUrl: "http://192.168.66.220:8000",
+      apiBase: "https://smartclassbe-production.up.railway.app/api",
+      apiBaseUrl: "https://smartclassbe-production.up.railway.app/",
     },
   },
 
