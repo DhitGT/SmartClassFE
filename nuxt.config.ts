@@ -1,21 +1,46 @@
-import tailwindcss from "@tailwindcss/vite";
-
 
 export default defineNuxtConfig({
   css: ["~/assets/css/tailwind.css"],
-  modules: ["@pinia/nuxt", "@vite-pwa/nuxt"],
+  modules: ["@vite-pwa/nuxt","@pinia/nuxt"],
 
+  pwa: {
+    registerType: 'autoUpdate',
+    includeAssets: ['favicon.ico', 'icons/*.png'],
+    manifest: {
+      name: 'Smart Class',
+      short_name: 'SClass',
+      description: 'An educational PWA',
+      theme_color: '#ffffff',
+      background_color: '#9dbcd5',
+      display: 'standalone',
+      icons: [
+        {
+          src: '/icons/web-app-manifest-192x192.png',
+          sizes: '192x192',
+          type: 'image/png',
+          purpose: 'any maskable',
+        },
+        {
+          src: '/icons/web-app-manifest-512x512.png',
+          sizes: '512x512',
+          type: 'image/png',
+          purpose: 'any maskable',
+        },
+      ],
+    },
+    devOptions: {
+      enabled: true,
+      type: 'module',
+    },
+  },
+  
 
   postcss: {
     plugins: {
-      "@tailwindcss/postcss": {}, // Updated line
+      "@tailwindcss/postcss": {},
       autoprefixer: {},
       "postcss-nesting": {},
     },
-  },
-
-  vite: {
-    plugins: [tailwindcss()],
   },
 
   build: {
@@ -23,61 +48,24 @@ export default defineNuxtConfig({
   },
 
   devServer: {
-    host: "192.168.66.220", // Change to "localhost" or specific IP
-    port: 3000, // Change the port as needed
-  },
-
-  pwa: {
-    registerType: "autoUpdate",
-    manifest: {
-      name: "Smart Class",
-      short_name: "SClass",
-      description: "Class management app",
-      theme_color: "#ffffff",
-      icons: [
-        {
-          src: "/favicon.ico",
-          sizes: "192x192",
-          type: "image/png",
-        },
-      ],
-    },
-    workbox: {
-      navigateFallback: "/",
-      runtimeCaching: [
-        {
-          urlPattern: /^https:\/\/api\.example\.com\//,
-          handler: "NetworkFirst",
-          options: {
-            cacheName: "api-cache",
-            expiration: {
-              maxEntries: 50,
-              maxAgeSeconds: 86400,
-            },
-          },
-        },
-      ],
-    },
-    devOptions: {
-      enabled: true, // Enables PWA in development mode
-      type: "module",
-    },
+    host: "192.168.66.220",
+    port: 3000,
   },
 
   nitro: {
     devProxy: {
-      '/api': {
-        target: 'https://smartclassbe-production.up.railway.app/',
+      "/api": {
+        target: "https://smartclassbe-production.up.railway.app", // ✅ Add protocol
         changeOrigin: true,
         prependPath: false,
-      }
-    }
+      },
+    },
   },
 
   runtimeConfig: {
     public: {
-      apiBase: "https://smartclassbe-production.up.railway.app/api",
-      apiBaseUrl: "https://smartclassbe-production.up.railway.app/",
+      apiBase: "https://smartclassbe-production.up.railway.app/api", // ✅ Use /api so it's clean and works with proxy
+      apiBaseUrl: "https://smartclassbe-production.up.railway.app", // ✅ Use /api so it's clean and works with proxy
     },
   },
 

@@ -1,10 +1,10 @@
 import { defineNuxtPlugin } from '#app';
-import Toast, { PluginOptions } from 'vue-toastification';
+import Toast from 'vue-toastification';
+import type { PluginOptions } from 'vue-toastification/dist/types'; // ✅ Use this path for type safety
 import 'vue-toastification/dist/index.css';
 
 export default defineNuxtPlugin((nuxtApp) => {
   const options: PluginOptions = {
-    // Customize options here
     timeout: 5000,
     closeOnClick: true,
     pauseOnFocusLoss: true,

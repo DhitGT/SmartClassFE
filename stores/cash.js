@@ -1,5 +1,7 @@
 import { defineStore } from "pinia";
-import { useToast } from "vue-toastification";
+import Toast from 'vue-toastification';
+
+const { useToast } = Toast;
 
 export const useCashStore = defineStore("cash", {
   state: () => ({
