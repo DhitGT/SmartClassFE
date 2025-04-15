@@ -38,7 +38,7 @@
                 </option>
               </select>
             </div>
-            <div class="md:ms-auto min-w-fit">
+            <div class="md:ms-auto min-w-fit" v-if="useNuxtApp().$checkRole(['Leader','Secretary'])">
               <button class="bg-blue-600 text-white px-4 py-2 rounded-lg">
                 <div
                   @click="toggleModal"

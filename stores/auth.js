@@ -24,6 +24,22 @@ export const useAuthStore = defineStore("auth", {
         console.error("Registration error:", error);
       }
     },
+    async handleGoogleCallback(userData) {
+      try {
+        const { data,message } = await useFetch("/auth/google", {
+          method: "POST",
+          body: userData,
+          baseURL: useRuntimeConfig().public.apiBase,
+        });
+        this.message = message;
+        if(data.value){
+            this.setAuth(data.value);
+        }
+      } catch (error) {
+        // this.message = error.message;
+        console.error("Registration error:", error);
+      }
+    },
 
     async login(credentials) {
       try {
@@ -52,9 +68,10 @@ export const useAuthStore = defineStore("auth", {
     setAuth({ user, token }) {
       this.user = user;
       this.token = token;
+      console.log("tokeennnn : ", this.token)
       if (process.client) {
         localStorage.setItem("token", token);
-        let userData = { id: user.id, name: user.name, email: user.email };
+        let userData = { id: user.id, name: user.name, email: user.email, role : user.role };
         localStorage.setItem("user", JSON.stringify(userData));
       }
     },

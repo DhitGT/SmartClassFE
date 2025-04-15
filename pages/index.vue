@@ -9,10 +9,24 @@
   </div>
 </template>
 
-<script>
+<script setup>
 // import Hero from '~/components/Hero.vue';
+import { useAuthStore } from "~/stores/auth";
+import { onMounted } from "vue";
 
-export default {};
+const authStore = useAuthStore();
+
+onMounted(() => {
+  if (!authStore.token) {
+    authStore.token = localStorage.getItem("token"); // Restore token
+    authStore.user =  JSON.parse(localStorage.getItem("user")); // Restore token
+  }
+  if (!authStore.token) {
+    // navigateTo("/auth/login");
+  }else{
+    navigateTo("/dashboard");
+  }
+});
 </script>
 
 <style>

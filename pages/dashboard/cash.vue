@@ -57,6 +57,12 @@ const getCashLog = async () => {
   await cashStore.getCashLog();
   console.log("CASH STORE DATA : ", cashStore.cashLogData);
 };
+const getCashPerWeek = async () => {
+  if (cashStore.cashPerWeek == 0) {
+    await cashStore.getCashPerWeek();
+  }
+  // console.log("CASH STORE DATA : ", cashStore.cashLogData);
+};
 const getClassCashSummary = async () => {
   await cashStore.getClassCashSummary();
   console.log("CASH STORE DATA : ", cashStore.data);
@@ -67,6 +73,7 @@ const listPembayaranPerBulan = async () => {
 };
 
 onMounted(() => {
+  getCashPerWeek();
   getClassCashSummary();
   getCashLog();
   listPembayaranPerBulan();

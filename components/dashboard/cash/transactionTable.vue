@@ -1,15 +1,27 @@
 <template>
   <div class="container mx-auto bg-white rounded-lg shadow-md p-4">
     <!-- Header Section -->
-    <div class="flex items-center gap-4">
-      <span class="text-lg md:text-xl font-bold">{{
+    <div class="flex items-center gap-4 w-full justify-center  sm:justify-start">
+      <span class="text-lg md:text-xl text-center sm:text-start font-bold">{{
         cashStore?.dataPerBulan?.month
       }}</span>
-      <span class="text-lg md:text-xl font-bold">{{ selectedYear }}</span>
+      <span class="text-lg md:text-xl text-center sm:text-start font-bold">{{ selectedYear }}</span>
     </div>
-    <div class="flex justify-between items-center mb-4">
-      <h2 class="text-sm md:text-lg font-semibold">Recent Transactions</h2>
+    <div class="flex justify-between flex-col sm:flex-row items-center mb-4">
+      <h2 class="text-sm mb-3 md:text-lg font-semibold">Recent Transactions</h2>
       <div class="flex space-x-2">
+        <button
+          @click="showCPWModal = true"
+          v-if="useNuxtApp().$checkRole(['Leader','Treasurer'])"
+          class="bg-gray-200 text-base px-4 py-2 rounded-lg"
+        >
+          <div
+            class="flex items-center text-xs md:text-base justify-center gap-1"
+          >
+            <component :is="CurrencyDollarIcon" class="text-gray-800 w-4 h-4" />
+            Weekly Fee
+          </div>
+        </button>
         <button
           @click="showFilterModal = true"
           class="bg-gray-200 text-base px-4 py-2 rounded-lg"
@@ -22,6 +34,7 @@
           </div>
         </button>
         <button
+        v-if="useNuxtApp().$checkRole(['Leader','Treasurer'])"
           @click="showModal = true"
           class="btn btn-primary rounded-lg flex items-center bg-blue-500 text-white px-4 hover:bg-blue-600"
         >
@@ -59,7 +72,7 @@
             <th class="px-4 text-start text-gray-500 py-2 md:text-base text-sm">
               Total
             </th>
-            <th class="px-4 text-start text-gray-500 py-2 md:text-base text-sm">
+            <th v-if="useNuxtApp().$checkRole(['Leader','Treasurer'])" class="px-4 text-start text-gray-500 py-2 md:text-base text-sm">
               Actions
             </th>
           </tr>
@@ -154,23 +167,64 @@
       </div>
     </div>
   </div>
+  <!-- Cash per week Modal -->
+  <div
+    v-if="showCPWModal"
+    class="fixed inset-0 flex items-center justify-center bg-[#00000025] bg-opacity-50"
+  >
+    <div class="bg-white w-xs sm:w-sm md:min-w-md p-6 rounded-lg shadow-lg">
+      <h3 class="text-lg font-semibold mb-4">Set Amount Cash Per Week</h3>
+      <div class="mb-4">
+        <label class="block text-gray-600">Amount</label>
+        <input
+          type="number"
+          v-model="selectedCPW"
+          class="border p-2 w-full rounded-md"
+        />
+      </div>
+      <div class="flex justify-end gap-2">
+        <button
+          @click="setCPW"
+          class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
+        >
+          Apply
+        </button>
+        <button
+          @click="showCPWModal = false"
+          class="bg-gray-300 px-4 py-2 rounded-lg hover:bg-gray-400"
+        >
+          Cancel
+        </button>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
+import { ref, computed,watch } from "vue";
 import { useCashStore } from "/stores/cash";
 import { useUserStore } from "/stores/user";
-import { FunnelIcon, PlusIcon, PencilIcon } from "@heroicons/vue/24/outline";
+import { FunnelIcon, PlusIcon, PencilIcon, CurrencyDollarIcon } from "@heroicons/vue/24/outline";
 
 const showModal = ref(false);
+const showCPWModal = ref(false);
 const showFilterModal = ref(false);
 const cashStore = useCashStore();
 const userStore = useUserStore();
+const selectedCPW = ref(0);
 const selectedDate = ref(new Date().toISOString().slice(0, 7));
 const maxDate = computed(() => new Date().toISOString().slice(0, 7));
 const selectedYear = computed(() => parseInt(selectedDate.value.split("-")[0]));
 const selectedMonth = computed(() =>
   parseInt(selectedDate.value.split("-")[1])
+);
+
+watch(
+  () => cashStore.cashPerWeek,
+  (val) => {
+    console.log("CPW VALLL : ",val)
+    selectedCPW.value = val;
+  }
 );
 
 async function handleSubmit(payload) {
@@ -223,6 +277,16 @@ const updateCashAction = async (member) => {
     month: selectedMonth.value,});
   await userStore.getMember();
 };
+
+async function setCPW() {
+  const formData = new FormData();
+  formData.append('amount',selectedCPW.value)
+
+  showCPWModal.value = false
+  await cashStore.setCashPerWeek(formData);
+  await cashStore.getCashPerWeek();
+
+}
 
 async function applyFilter() {
 

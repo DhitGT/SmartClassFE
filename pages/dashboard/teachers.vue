@@ -11,7 +11,7 @@
     <div class="flex justify-between gap-4">
       <div class="flex items-center w-full md:w-fit justify-start gap-4">
         <input
-          type="text" 
+          type="text"
           v-model="search"
           placeholder="Search teachers..."
           class="hidden md:block input input-bordered w-full border bg-white border-gray-300 rounded-md p-2"
@@ -40,6 +40,7 @@
         <option :value="100">100</option>
       </select>
       <button
+        v-if="useNuxtApp().$checkRole(['Leader', 'Secretary'])"
         @click="showModal = true"
         class="btn btn-primary rounded-lg flex items-center bg-blue-500 text-white px-4 hover:bg-blue-600"
       >
@@ -62,7 +63,7 @@
               Teacher
             </th>
             <th class="px-4 text-start text-gray-500 py-2">Subject</th>
-            <th class="px-4 text-start text-gray-500 py-2">Joined Date</th>
+            <th class="px-4 text-start text-gray-500 py-2">Created At</th>
             <th class="px-4 text-start text-gray-500 py-2 rounded-t-xl">
               Actions
             </th>
@@ -76,17 +77,28 @@
           >
             <td class="px-4 py-2 flex items-center gap-2">
               <img
-                :src="teacher.avatar ? `${useRuntimeConfig().public.apiBaseUrl}/storage/${teacher.avatar}`: 'https://placehold.co/300'"
+                :src="
+                  teacher.avatar
+                    ? `${useRuntimeConfig().public.apiBaseUrl}/storage/${
+                        teacher.avatar
+                      }`
+                    : 'https://placehold.co/300'
+                "
                 class="h-10 w-10 object-cover rounded-full"
               />
               <div class="leading-5">
                 <span class="font-semibold">{{ teacher.name }}</span>
               </div>
             </td>
-            <td class="px-4 py-2">{{ teacher.subject ? teacher.subject.name : 'Not assigned' }}</td>
+            <td class="px-4 py-2">
+              {{ teacher.subject ? teacher.subject.name : "Not assigned" }}
+            </td>
             <td class="px-4 py-2">{{ formatDate(teacher.created_at) }}</td>
 
-            <td class="px-4 py-2 flex gap-2">
+            <td
+              class="px-4 py-2 flex gap-2"
+              v-if="useNuxtApp().$checkRole(['Leader', 'Secretary'])"
+            >
               <DashboardFormEditTeacherForm
                 @update="updateTeacherAction"
                 :teacher="teacher"
@@ -102,8 +114,10 @@
         <div class="flex items-center gap-4">
           <p class="text-sm">
             Showing {{ (page - 1) * pageSize + 1 }} to
-            {{ Math.min(page * pageSize, teacherStore.data.teachers?.total) }} of
-            {{ teacherStore.data.teachers?.total }} entries
+            {{
+              Math.min(page * pageSize, teacherStore.data.teachers?.total)
+            }}
+            of {{ teacherStore.data.teachers?.total }} entries
           </p>
           <select
             v-model="pageSize"
@@ -246,20 +260,20 @@ const clearFilters = () => {
 const deleteTeacherAction = async (teacher) => {
   console.log("Deleting teacher:", teacher);
   const formData = new FormData();
-  formData.append('id',teacher.id)
+  formData.append("id", teacher.id);
   await teacherStore.deleteTeacher(formData);
   await getTeachers();
 };
 
 const updateTeacherAction = async (teacher) => {
-  let formData = new FormData()
-  formData.append('id', teacher.id)
-  formData.append('name', teacher.name)
-  formData.append('subject_id', teacher.subject_id)
-  if(teacher.avatar){
-    formData.append('avatar', teacher.avatar)
+  let formData = new FormData();
+  formData.append("id", teacher.id);
+  formData.append("name", teacher.name);
+  formData.append("subject_id", teacher.subject_id);
+  if (teacher.avatar) {
+    formData.append("avatar", teacher.avatar);
   }
-  
+
   await teacherStore.editTeacher(formData);
   showModal.value = false;
   await getTeachers();

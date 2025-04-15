@@ -17,12 +17,12 @@
       <div class="flex-1">
         <h2 class="text-base font-semibold">{{ name }}</h2>
         <p class="text-gray-500 text-xs">{{ email }}</p>
-        <div class="flex items-center gap-2">
+        <div class="flex items-center gap-2" v-if="useNuxtApp().$checkRole(['Leader'])">
           <LockClosedIcon class="w-3 h-3 text-gray-500" />
           <p class="text-gray-500 text-xs">{{ access_code }}</p>
         </div>
       </div>
-      <div class="relative ml-4">
+      <div class="relative ml-4" v-if="useNuxtApp().$checkRole(['Leader'])">
         <!-- Ellipsis Icon -->
         <button @click="toggleDropdown" class="focus:outline-none">
           <component :is="EllipsisVerticalIcon" class="h-5 w-5 text-gray-600" />

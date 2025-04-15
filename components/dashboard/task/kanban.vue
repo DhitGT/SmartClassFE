@@ -248,7 +248,7 @@
               }}</span>
 
               <div class="relative" v-if="isMobile">
-                <button class="text-gray-400" @click="openActionsMenu(task)">
+                <button class="text-gray-400" v-if="useNuxtApp().$checkRole(['Leader','Secretary'])" @click="openActionsMenu(task)">
                   <span class="block">···</span>
                 </button>
 

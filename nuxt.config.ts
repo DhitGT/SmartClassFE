@@ -48,14 +48,16 @@ export default defineNuxtConfig({
   },
 
   devServer: {
-    host: "192.168.66.220",
+    // host: "192.168.207.220",
+    host: "localhost",
     port: 3000,
   },
 
   nitro: {
     devProxy: {
       "/api": {
-        target: "https://smartclassbe-production.up.railway.app", // ✅ Add protocol
+        // target: "https://smartclassbe-production.up.railway.app", // ✅ Add protocol
+        target: "http://192.168.207.220:8000", // ✅ Add protocol
         changeOrigin: true,
         prependPath: false,
       },
@@ -64,8 +66,11 @@ export default defineNuxtConfig({
 
   runtimeConfig: {
     public: {
-      apiBase: "https://smartclassbe-production.up.railway.app/api", // ✅ Use /api so it's clean and works with proxy
-      apiBaseUrl: "https://smartclassbe-production.up.railway.app", // ✅ Use /api so it's clean and works with proxy
+      // apiBase: "https://smartclassbe-production.up.railway.app/api", // ✅ Use /api so it's clean and works with proxy
+      // apiBaseUrl: "https://smartclassbe-production.up.railway.app", // ✅ Use /api so it's clean and works with proxy
+      apiBase: "http://192.168.207.220:8000/api", // ✅ Use /api so it's clean and works with proxy
+      apiBaseUrl: "http://192.168.207.220:8000",
+      googleClientId: process.env.GOOGLE_CLIENT_ID,
     },
   },
 

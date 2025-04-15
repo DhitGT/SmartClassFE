@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="$checkRole(['Leader','Treasurer'])">
     <div @click.prevent="openModal" class="flex gap-3 items-center">
       <button class="text-blue-500 hover:text-blue-700">
         <PencilIcon class="h-5 w-5 cursor-pointer" />
@@ -55,6 +55,7 @@
 <script setup>
 import { ref, defineProps, defineEmits } from "vue";
 import { PencilIcon } from "@heroicons/vue/24/outline";
+const { $checkRole } = useNuxtApp()
 
 const props = defineProps({ member: Object, type: String });
 const emit = defineEmits(["update"]);

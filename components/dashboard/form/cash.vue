@@ -10,6 +10,7 @@ import {
 } from "@heroicons/vue/24/solid";
 import { useUserStore } from "/stores/user";
 const userStore = useUserStore();
+const { $checkRole } = useNuxtApp()
 
 // Initialize reactive variables
 const amount = ref("");
@@ -98,6 +99,7 @@ const submitForm = () => {
 
 <template>
   <div
+  v-if="$checkRole(['Leader','Treasurer'])"
     class="fixed inset-0 flex items-center justify-center bg-[#00000028] bg-opacity-50"
   >
     <div class="bg-white p-6 rounded-lg shadow-md w-xs sm:w-sm md:min-w-md">

@@ -10,12 +10,13 @@ export const useCashStore = defineStore("cash", {
     // token: process.client ? localStorage.getItem("token") : null,
     data: [],
     cashLogData: [],
+    cashPerWeek: 0,
     dataPerBulan: [],
   }),
 
   actions: {
     showToast(type, message) {
-      const toast = useToast(); // Move inside function to ensure it's properly initialized
+       const toast = useNuxtApp().$toast; // Move inside function to ensure it's properly initialized
       if (type === "success") {
         toast.success(message);
       } else if (type === "error") {
@@ -77,6 +78,51 @@ export const useCashStore = defineStore("cash", {
         console.log("pinia cash daatass:", this.dataPerBulan);
       } catch (error) {
         console.error("Registration error:", error);
+      }
+    },
+    async setCashPerWeek(payload) {
+      try {
+        const { data } = await useFetch("/cash/setCashPerWeek", {
+          method: "POST",
+          body: payload, // FormData is correctly passed
+          baseURL: useRuntimeConfig().public.apiBase,
+          headers: {
+            Authorization: `Bearer ${
+              process.client ? localStorage.getItem("token") : null
+            }`,
+          }, // Remove "Content-Type"
+        });
+        if (data.value) {
+          this.message = data.value.message;
+          // this.showToast(data.value.messageType || "success", this.message);
+        }
+      } catch (error) {
+        console.error("Registration error:", error);
+        // this.showToast("error", "Failed to add cash .");
+      }
+    },
+    async getCashPerWeek() {
+      try {
+        const { data } = await useFetch("/cash/getCashPerWeek", {
+          method: "POST",
+          baseURL: useRuntimeConfig().public.apiBase,
+          headers: {
+            Authorization: `Bearer ${
+              process.client ? localStorage.getItem("token") : null
+            }`,
+          }, // Remove "Content-Type"
+
+        });
+        console.log("CASHH GET cPW : ",data.value)
+        if (data.value) {
+          this.cashPerWeek = data.value.data.cash_per_week;
+          console.log("cahs per week  : ", this.cashPerWeek)
+          this.message = data.value.message;
+          // this.showToast(data.value.messageType || "success", this.message);
+        }
+      } catch (error) {
+        console.error("Registration error:", error);
+        // this.showToast("error", "Failed to add cash .");
       }
     },
     async addCash(payload) {

@@ -2,6 +2,7 @@
 import { ref, defineEmits } from 'vue';
 import { ArrowLeftIcon, UserIcon, LockClosedIcon, AtSymbolIcon, BriefcaseIcon, XMarkIcon, PhotoIcon } from '@heroicons/vue/24/solid';
 
+const { $checkRole } = useNuxtApp()
 const name = ref('');
 const email = ref('');
 const role = ref('');
@@ -52,7 +53,7 @@ const removeAvatar = () => {
 </script>
 
 <template>
-  <div class="fixed inset-0 flex items-center justify-center bg-[#00000028] bg-opacity-50">
+  <div v-if="$checkRole(['Leader'])" class="fixed inset-0 flex items-center justify-center bg-[#00000028] bg-opacity-50">
     <div class="bg-white p-6 rounded-lg shadow-md max-w-md w-full">
       <div class="flex justify-between items-center mb-4">
         <h2 class="text-xl font-semibold text-gray-700 flex items-center">

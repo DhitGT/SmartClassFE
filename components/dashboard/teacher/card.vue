@@ -30,7 +30,7 @@
       </div>
       <div
         class="relative ml-4"
-
+        v-if="useNuxtApp().$checkRole(['Leader','Secretary'])"
       >
         <!-- Ellipsis Icon -->
         <button @click="toggleDropdown" class="focus:outline-none">
@@ -90,6 +90,7 @@
 
 <script setup>
 import clickOutside from "@/directives/clickOutside";
+const { $checkRole } = useNuxtApp()
 import { computed } from "vue";
 import {
   BookOpenIcon,

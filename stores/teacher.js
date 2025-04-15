@@ -13,7 +13,7 @@ export const useTeacherStore = defineStore("teacher", {
 
   actions: {
     showToast(type, message) {
-      const toast = useToast(); // Move inside function to ensure it's properly initialized
+       const toast = useNuxtApp().$toast; // Move inside function to ensure it's properly initialized
       if (type === "success") {
         toast.success(message);
       } else if (type === "error") {

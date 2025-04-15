@@ -7,7 +7,7 @@
           
         >
           <!-- Ellipsis Icon -->
-          <button @click="toggleDropdown" class="focus:outline-none">
+          <button @click="toggleDropdown" v-if="useNuxtApp().$checkRole(['Leader','Secretary'])" class="focus:outline-none">
             <component
               :is="EllipsisVerticalIcon"
               class="cursor-pointer h-5 w-5 text-gray-600"
@@ -27,6 +27,7 @@
             />
             <ReusableDeleteButton
               :type="'mobile'"
+
               @delete="confirmDelete(props.subject)"
               class="hover:bg-gray-100 rounded-lg p-2 cursor-pointer"
             />

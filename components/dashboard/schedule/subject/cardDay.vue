@@ -8,6 +8,7 @@
       <div class="pb-3 flex items-center justify-between w-full">
         <h2 class="text-lg font-semibold">{{ props.dayName }}</h2>
         <PencilIcon
+          v-if="useNuxtApp().$checkRole(['Leader','Secretary'])"
           @click="toggleEditMode"
           class="w-4 h-4 text-gray-500 hover:text-gray-800 cursor-pointer"
         />
@@ -30,7 +31,7 @@
               >
             </div>
             <ReusableDeleteButton
-              v-if="isEditMode"
+              v-if="isEditMode && useNuxtApp().$checkRole(['Leader','Secretary'])"
               @delete="confirmDelete(subject.schedule_id)"
               class="hover:bg-gray-100 rounded-lg  cursor-pointer"
             />

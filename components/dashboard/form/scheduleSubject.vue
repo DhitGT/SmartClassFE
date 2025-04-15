@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="$checkRole(['Leader','Secretary'])">
     <Teleport to="body">
       <Transition name="fade">
         <div
@@ -85,6 +85,7 @@
 import { onMounted, ref, defineProps, defineEmits, watch } from "vue";
 import { PencilIcon } from "@heroicons/vue/24/outline";
 import { storeToRefs } from "pinia";
+const { $checkRole } = useNuxtApp()
 
 import { useScheduleStore } from "~/stores/schedule"; // adjust path as needed
 const scheduleStore = useScheduleStore();

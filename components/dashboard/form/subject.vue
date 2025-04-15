@@ -1,6 +1,7 @@
 <script setup>
 import { ref, defineEmits } from 'vue';
 import { BookOpenIcon, CalculatorIcon,CircleStackIcon, BeakerIcon, GlobeAltIcon,ComputerDesktopIcon } from '@heroicons/vue/24/outline';
+const { $checkRole } = useNuxtApp()
 
 const name = ref('');
 const description = ref('');
@@ -39,7 +40,7 @@ const submitForm = () => {
 </script>
 
 <template>
-  <div class="fixed inset-0 flex items-center justify-center bg-[#00000028] z-[99] bg-opacity-50">
+  <div v-if="$checkRole(['Leader','Secretary'])" class="fixed inset-0 flex items-center justify-center bg-[#00000028] z-[99] bg-opacity-50">
     <div class="bg-white p-6 rounded-lg shadow-md w-xs sm:w-sm md:min-w-md ">
       <div class="flex justify-between items-center mb-4">
         <h2 class="text-xl font-semibold text-gray-700">Create New Subject</h2>

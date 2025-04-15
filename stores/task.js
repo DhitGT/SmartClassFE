@@ -14,7 +14,7 @@ export const useTaskStore = defineStore("task", {
 
   actions: {
     showToast(type, message) {
-      const toast = useToast(); 
+       const toast = useNuxtApp().$toast; 
       if (type === "success") {
         toast.success(message);
       } else if (type === "error") {

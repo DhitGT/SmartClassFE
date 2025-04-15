@@ -1,7 +1,7 @@
 <template>
-  <div>
-    <div @click.prevent="openModal" class="flex gap-3 items-center">
-      <button class="text-blue-500 hover:text-blue-700">
+  <div v-if="$checkRole(['Leader'])" >
+    <div  class="flex gap-3 items-center">
+      <button @click="openModal" class="text-blue-500 hover:text-blue-700">
         <PencilIcon class="h-5 w-5 cursor-pointer" />
       </button>
       <div class="text-blue-500" v-if="props.type == 'mobile'">edit</div>
@@ -81,6 +81,7 @@
             <div class="mb-4">
               <label class="block text-gray-700">Email</label>
               <input
+              id="emailInput"
                 v-model="formData.user.email"
                 type="email"
                 class="w-full border rounded p-2"
@@ -142,6 +143,7 @@
 </template>
 
 <script setup>
+const { $checkRole } = useNuxtApp()
 import { ref, defineProps, defineEmits } from "vue";
 import {
   PencilIcon,

@@ -6,6 +6,7 @@ import {
   PhotoIcon,
   BookOpenIcon,
 } from "@heroicons/vue/24/solid";
+const { $checkRole } = useNuxtApp();
 
 const name = ref("");
 const subject = ref("");
@@ -21,7 +22,7 @@ const subjectStore = useSubjectStore();
 const subjects = ref("");
 onMounted(async () => {
   await subjectStore.getSubject();
-  subjects.value = subjectStore.data.subject
+  subjects.value = subjectStore.data.subject;
 });
 
 const submitForm = () => {
@@ -49,7 +50,6 @@ const handleFileChange = (event) => {
   }
 };
 
-
 const removeAvatar = () => {
   avatar.value = null;
   avatarPreview.value = "";
@@ -60,6 +60,7 @@ const removeAvatar = () => {
 
 <template>
   <div
+    v-if="$checkRole(['Leader', 'Secretary'])"
     class="fixed inset-0 flex items-center justify-center bg-[#00000028] z-[99] bg-opacity-50"
   >
     <div class="bg-white p-6 rounded-lg shadow-md w-xs sm:w-sm md:min-w-md">
@@ -135,7 +136,14 @@ const removeAvatar = () => {
             <select v-model="subject" class="flex-1 outline-none">
               <option value="" disabled>Select Subject</option>
               <option value="0">Not Asigned</option>
-              <option :disabled="s.teacher != {}" v-for="s in subjects" :key="s.id" :value="s.id">{{ s.name }}</option>
+              <option
+                :disabled="s.teacher != {}"
+                v-for="s in subjects"
+                :key="s.id"
+                :value="s.id"
+              >
+                {{ s.name }}
+              </option>
             </select>
           </div>
         </div>

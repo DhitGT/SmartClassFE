@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="$checkRole(['Leader','Secretary'])">
     <div
       @click.prevent="openModal"
       class="flex gap-3 cursor-pointer items-center"
@@ -102,6 +102,7 @@
 </template>
 
 <script setup>
+const { $checkRole } = useNuxtApp()
 import { ref, defineProps, defineEmits, onMounted } from "vue";
 import {
   PencilIcon,

@@ -12,6 +12,7 @@
       <div class="pb-3 flex items-center justify-between w-full">
         <h2 class="text-lg font-semibold">{{ props.dayName }}</h2>
         <PencilIcon
+        v-if="useNuxtApp().$checkRole(['Leader','Secretary'])"
           @click="toggleEditMode"
           class="w-4 h-4 text-gray-500 hover:text-gray-800 cursor-pointer"
         />
@@ -37,7 +38,7 @@
               <h2 class="text-base">{{ member.member.user.name }}</h2>
             </div>
             <ReusableDeleteButton
-              v-if="isEditMode"
+              v-if="isEditMode && useNuxtApp().$checkRole(['Leader','Secretary'])"
               @delete="confirmDelete(member.id)"
               class="hover:bg-gray-100 rounded-lg cursor-pointer"
             />
@@ -80,6 +81,7 @@ import {
   PlusIcon,
 } from "@heroicons/vue/24/outline";
 import clickOutside from "@/directives/clickOutside";
+
 
 import { useScheduleStore } from "~/stores/schedule";
 import { CircleStackIcon } from "@heroicons/vue/24/outline";

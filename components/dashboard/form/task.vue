@@ -1,6 +1,7 @@
 <script setup>
 import { ref, defineEmits,onMounted } from "vue";
 import { CalendarIcon, ClockIcon } from "@heroicons/vue/24/outline";
+const { $checkRole } = useNuxtApp()
 
 const name = ref("");
 const description = ref("");
@@ -88,7 +89,7 @@ const submitForm = () => {
 </script>
 
 <template>
-  <div class="fixed inset-0 flex items-center justify-center bg-[#00000025]">
+  <div v-if="$checkRole(['Leader','Secretary'])" class="fixed inset-0 flex items-center justify-center bg-[#00000025]">
     <div class="bg-white mt-6 p-6 rounded-lg shadow-md w-xs sm:w-sm md:min-w-md">
       <div class="flex justify-between items-center mb-4">
         <h2 class="text-xl font-semibold text-gray-700">Add New Task</h2>

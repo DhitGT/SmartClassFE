@@ -1,5 +1,5 @@
 <template>
-  <div  @click="openModal">
+  <div  @click="openModal" >
     <button class="text-red-500 hover:text-red-700">
       <div class="flex gap-3 items-center">
           <TrashIcon class="h-5 w-5 cursor-pointer" />
@@ -21,6 +21,7 @@
 <script setup>
 import { ref } from "vue";
 import { TrashIcon } from "@heroicons/vue/24/outline";
+const { $checkRole } = useNuxtApp()
 
 const showModal = ref(false);
 const emit = defineEmits(["delete"]);

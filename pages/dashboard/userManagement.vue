@@ -26,6 +26,7 @@
           <option value="Secretary">Secretary</option>
           <option value="Treasurer">Treasurer</option>
           <option value="Member">Member</option>
+          <option value="Teacher">Teacher</option>
         </select>
       </div>
       <select
@@ -39,6 +40,7 @@
         <option :value="100">100</option>
       </select>
       <button
+      v-if="useNuxtApp().$checkRole(['Leader'])"
         @click="showModal = true"
         class="btn btn-primary rounded-lg flex items-center bg-blue-500 text-white px-4 hover:bg-blue-600"
       >
@@ -71,7 +73,7 @@
         <tbody>
           <tr
             v-for="member in members"
-            :key="member.user.email"
+            :key="member.user.id"
             class="bg-white border-y-1 border-gray-200 hover:bg-gray-50"
           >
             <td class="px-4 py-2 flex items-center gap-2">
@@ -89,9 +91,9 @@
             </td>
             <td class="px-4 py-2">{{ member.user.role }}</td>
             <td class="px-4 py-2">{{ formatDate(member.user.created_at) }}</td>
-            <td class="px-4 py-2">{{ member.access_code }}</td>
+            <td class="px-4 py-2" v-if="useNuxtApp().$checkRole(['Leader'])">{{  member.access_code }}</td>
 
-            <td class="px-4 py-2 flex gap-2">
+            <td class="px-4 py-2 flex gap-2" v-if="useNuxtApp().$checkRole(['Leader'])">
               <DashboardFormEditMemberForm
                 @update="updateMemberAction"
                 :member="member"
@@ -158,7 +160,7 @@
     <div class="md:hidden flex flex-col gap-4">
       <DashboardUserCard
         v-for="member in members"
-        :key="member.user.email"
+        :key="member.user.id"
         :name="member.user.name"
         :avatar="member.user.avatar"
         :email="member.user.email"
