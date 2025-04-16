@@ -1,7 +1,7 @@
 <template>
   <div v-if="$checkRole(['Leader'])" >
-    <div  class="flex gap-3 items-center">
-      <button @click="openModal" class="text-blue-500 hover:text-blue-700">
+    <div @click="openModal" class="flex cursor-pointer gap-3 items-center">
+      <button  class="text-blue-500 hover:text-blue-700">
         <PencilIcon class="h-5 w-5 cursor-pointer" />
       </button>
       <div class="text-blue-500" v-if="props.type == 'mobile'">edit</div>
@@ -155,7 +155,7 @@ import {
 
 const props = defineProps({ member: Object, type: String });
 const emit = defineEmits(["update"]);
-const roles = ["Secretary", "Treasurer", "Member"];
+const roles = ["Secretary", "Treasurer", "Member","Teacher"];
 const showModal = ref(false);
 const formData = ref({ ...props.member });
 const avatarPreview = ref(props.member.avatar || "");

@@ -50,7 +50,7 @@ definePageMeta({
   <!-- <DashboardSidebar/> -->
 
   <div class="flex flex-col gap-4  mb-[3rem]">
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-4 max-w-sm md:max-w-full">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-4 max-w-full">
       <DashboardStatisticCard
         :icon="musicIcon"
         :count="dashboardStore?.data?.data?.teachers"

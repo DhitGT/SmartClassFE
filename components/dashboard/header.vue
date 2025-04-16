@@ -1,5 +1,5 @@
 <template>
-  <div class="p-6 rounded-lg">
+  <div class="px-4 py-3 mb-3 bg-white rounded-lg">
     <div class="flex justify-between items-center">
       <!-- Dashboard Title -->
       <!-- Sidebar Toggle Button -->
@@ -39,7 +39,7 @@
           >
             <button
               @click="logout"
-              class="block w-full text-left px-4 py-8 text-gray-700 cursor-pointer"
+              class="block w-full text-left px-4 py-2 text-gray-700 cursor-pointer"
             >
               Logout
             </button>

@@ -43,7 +43,7 @@
                 <li v-for="attachment in task.attachments" :key="attachment.id">
                   <a
                     class="text-slate-700 text-xs"
-                    :href="attachment.path"
+                    :href="useRuntimeConfig().public.apiBaseUrl +'/storage/'+ attachment.path"
                     target="_blank"
                     >{{
                       attachment.name.length > 20
@@ -111,7 +111,7 @@
                 <li v-for="attachment in task.attachments" :key="attachment.id">
                   <a
                     class="text-slate-700 text-xs"
-                    :href="attachment.path"
+                    :href="useRuntimeConfig().public.apiBaseUrl +'/storage/'+ attachment.path"
                     target="_blank"
                     >{{ attachment.name }}</a
                   >
@@ -175,7 +175,7 @@
                 <li v-for="attachment in task.attachments" :key="attachment.id">
                   <a
                     class="text-slate-700 text-xs"
-                    :href="attachment.path"
+                    :href="useRuntimeConfig().public.apiBaseUrl +'/storage/'+ attachment.path"
                     target="_blank"
                     >{{ attachment.name }}</a
                   >
@@ -286,7 +286,7 @@
                 <li v-for="attachment in task.attachments" :key="attachment.id">
                   <a
                     class="text-slate-700 text-xs"
-                    :href="attachment.path"
+                    :href="useRuntimeConfig().public.apiBaseUrl +'/storage/'+ attachment.path"
                     target="_blank"
                     >{{ attachment.name }}</a
                   >

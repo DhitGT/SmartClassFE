@@ -19,7 +19,7 @@ const authStore = useAuthStore();
 onMounted(() => {
   if (!authStore.token) {
     authStore.token = localStorage.getItem("token"); // Restore token
-    authStore.user =  JSON.parse(localStorage.getItem("user")); // Restore token
+    authStore.user = JSON.parse(localStorage.getItem("user")); // Restore token
   }
   if (!authStore.token) {
     navigateTo("/auth/login");
@@ -28,15 +28,38 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="flex  md:overflow-auto md:max-w-full overflow-x-hidden">
-    <!-- Bind the reactive property with v-model -->
-    <DashboardSidebar v-model:isOpen="isSidebarOpen" />
-    <div class="flex-1 lg:pl-64 bg-gray-100 container max-w-none md:px-0">
-      <!-- Emit event to update sidebar state -->
-      <DashboardHeader :sidebarVal="isSidebarOpen"  @isSidebarOpen="handleSidebar" />
-      <div class="px-6">
-        <slot />
+  <div class="relative flex min-h-screen overflow-x-hidden">
+    <!-- Grid background that expands as content grows -->
+    <div
+      class="absolute inset-0 w-full min-h-full bg-grid bg-gradient-to-br from-purple-600 via-pink-500 to-red-500 opacity-90 z-0"
+    ></div>
+
+    <!-- Foreground content -->
+    <div class="relative z-10 flex w-full">
+      <DashboardSidebar v-model:isOpen="isSidebarOpen" />
+      <div class="flex-1 lg:pl-64 container max-w-none md:px-0">
+        <DashboardHeader
+          :sidebarVal="isSidebarOpen"
+          @isSidebarOpen="handleSidebar"
+        />
+
+        <div class="px-6 pb-10">
+          <slot />
+        </div>
       </div>
     </div>
   </div>
 </template>
+
+<style scoped>
+.bg-grid {
+  background-color: rgb(241, 240, 240);
+  background-image: linear-gradient(
+      to right,
+      rgba(0, 0, 0, 0.045) 1px,
+      transparent 1px
+    ),
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.045) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+</style>

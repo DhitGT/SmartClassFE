@@ -89,7 +89,9 @@ const subjectStore = useSubjectStore();
 
 onMounted(async () => {
   // Fetch subjects when component is mounted
-  await fetchSubjects();
+  if(!subjectStore.data.subject){
+    await fetchSubjects();
+  }
 });
 
 const fetchSubjects = async () => {

@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import Toast from 'vue-toastification';
+import Toast from "vue-toastification";
 
 const { useToast } = Toast;
 
@@ -13,7 +13,7 @@ export const useSubjectStore = defineStore("subject", {
 
   actions: {
     showToast(type, message) {
-       const toast = useNuxtApp().$toast; // Move inside function to ensure it's properly initialized
+      const toast = useNuxtApp().$toast; // Move inside function to ensure it's properly initialized
       if (type === "success") {
         toast.success(message);
       } else if (type === "error") {
@@ -21,20 +21,23 @@ export const useSubjectStore = defineStore("subject", {
       }
     },
     async getSubject() {
-        try {
-            const { data } = await useFetch('/subject/get', {
-                method: 'POST',
-                baseURL: useRuntimeConfig().public.apiBase,
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${process.client ? localStorage.getItem('token') : null}`
-                }
-            });
-            console.log('pinia daat:', data)
-            this.data = data.value
-        } catch (error) {
-            console.error('Registration error:', error);
-        }
+      this.data = [];
+      try {
+        const { data } = await useFetch("/subject/get", {
+          method: "POST",
+          baseURL: useRuntimeConfig().public.apiBase,
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${
+              process.client ? localStorage.getItem("token") : null
+            }`,
+          },
+        });
+        console.log("pinia daat:", data);
+        this.data = data.value;
+      } catch (error) {
+        console.error("Registration error:", error);
+      }
     },
     async addSubject(payload) {
       try {

@@ -15,7 +15,8 @@
 
       <!-- Responsive Wrapper -->
       <div class="overflow-x-auto mt-4">
-        <table class="min-w-full border-collapse">
+        <table v-if="taskStore.tasks"
+         class="min-w-full border-collapse">
           <thead>
             <tr class="bg-gray-100">
               <th
@@ -72,6 +73,7 @@
             </tr>
           </tbody>
         </table>
+        <span v-else class="text-center text-gray-300">No data available</span>
       </div>
     </div>
   </div>

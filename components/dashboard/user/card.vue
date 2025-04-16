@@ -24,7 +24,7 @@
       </div>
       <div class="relative ml-4" v-if="useNuxtApp().$checkRole(['Leader'])">
         <!-- Ellipsis Icon -->
-        <button @click="toggleDropdown" class="focus:outline-none">
+        <button @click="toggleDropdown" class="cursor-pointer focus:outline-none">
           <component :is="EllipsisVerticalIcon" class="h-5 w-5 text-gray-600" />
         </button>
 

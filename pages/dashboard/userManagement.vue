@@ -40,7 +40,7 @@
         <option :value="100">100</option>
       </select>
       <button
-      v-if="useNuxtApp().$checkRole(['Leader'])"
+        v-if="useNuxtApp().$checkRole(['Leader'])"
         @click="showModal = true"
         class="btn btn-primary rounded-lg flex items-center bg-blue-500 text-white px-4 hover:bg-blue-600"
       >
@@ -64,8 +64,8 @@
             </th>
             <th class="px-4 text-start text-gray-500 py-2">Role</th>
             <th class="px-4 text-start text-gray-500 py-2">Joined Date</th>
-            <th class="px-4 text-start text-gray-500 py-2">Password</th>
-            <th class="px-4 text-start text-gray-500 py-2 rounded-t-xl">
+            <th class="px-4 text-start text-gray-500 py-2" v-if="useNuxtApp().$checkRole(['Leader'])">Password</th>
+            <th class="px-4 text-start text-gray-500 py-2 rounded-t-xl" v-if="useNuxtApp().$checkRole(['Leader'])">
               Actions
             </th>
           </tr>
@@ -78,7 +78,13 @@
           >
             <td class="px-4 py-2 flex items-center gap-2">
               <img
-                :src="member.user.avatar ? `${useRuntimeConfig().public.apiBaseUrl}/storage/${member.user.avatar}`: 'https://placehold.co/300'"
+                :src="
+                  member.user.avatar
+                    ? `${useRuntimeConfig().public.apiBaseUrl}/storage/${
+                        member.user.avatar
+                      }`
+                    : 'https://placehold.co/300'
+                "
                 class="h-10 w-10 object-cover rounded-full"
               />
               <div class="leading-5">
@@ -91,9 +97,14 @@
             </td>
             <td class="px-4 py-2">{{ member.user.role }}</td>
             <td class="px-4 py-2">{{ formatDate(member.user.created_at) }}</td>
-            <td class="px-4 py-2" v-if="useNuxtApp().$checkRole(['Leader'])">{{  member.access_code }}</td>
+            <td class="px-4 py-2" v-if="useNuxtApp().$checkRole(['Leader'])">
+              {{ member.access_code }}
+            </td>
 
-            <td class="px-4 py-2 flex gap-2" v-if="useNuxtApp().$checkRole(['Leader'])">
+            <td
+              class="px-4 py-2 flex gap-2"
+              v-if="useNuxtApp().$checkRole(['Leader'])"
+            >
               <DashboardFormEditMemberForm
                 @update="updateMemberAction"
                 :member="member"
@@ -261,15 +272,15 @@ const deleteMemberAction = async (member) => {
 };
 
 const updateMemberAction = async (member) => {
-  let formData = new FormData()
-  formData.append('id',member.id)
-  formData.append('name',member.user.name)
-  formData.append('email',member.user.email)
-  formData.append('role',member.user.role)
-  formData.append('access_code',member.access_code)
+  let formData = new FormData();
+  formData.append("id", member.id);
+  formData.append("name", member.user.name);
+  formData.append("email", member.user.email);
+  formData.append("role", member.user.role);
+  formData.append("access_code", member.access_code);
 
-  if(member.avatar){
-    formData.append('avatar',member.avatar)
+  if (member.avatar) {
+    formData.append("avatar", member.avatar);
   }
 
   // let formDatas = {

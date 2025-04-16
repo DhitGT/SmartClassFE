@@ -1,5 +1,5 @@
 <template>
-  <div  @click="openModal" >
+  <div  @click="openModal" class="cursor-pointer">
     <button class="text-red-500 hover:text-red-700">
       <div class="flex gap-3 items-center">
           <TrashIcon class="h-5 w-5 cursor-pointer" />
